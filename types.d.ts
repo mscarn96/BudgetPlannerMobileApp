@@ -6,6 +6,7 @@ export interface User {
 }
 
 export interface Expenditure {
+  _id: string;
   name: string;
   value: number;
   cyclic: boolean;
@@ -19,10 +20,12 @@ export type SingleExpenditure = Expenditure & {
 export type Subscription = Expenditure & {
   cyclic: true;
   dayPeriod: number;
+  active: boolean;
   icon: string;
 };
 
 export interface Income {
+  _id: string;
   name: string;
   value: number;
   cyclic: boolean;
@@ -35,13 +38,15 @@ export type SingleIncome = Income & {
 
 export type RegularIncome = Income & {
   cyclic: true;
+  active: boolean;
   dayPeriod: number;
 };
 
 export interface Budget {
   balance: number;
-  incomes: Array<RegularIncome>;
-  subscriptions: Array<Subscription>;
+  history: Array<
+    SingleExpenditure | Subscription | SingleIncome | RegularIncome
+  >;
 }
 
 export interface Options {

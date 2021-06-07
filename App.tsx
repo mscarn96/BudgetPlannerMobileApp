@@ -1,82 +1,35 @@
 import { NavigationContainer } from "@react-navigation/native";
-import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import React from "react";
-
 import "react-native-gesture-handler";
+import { Provider } from "react-redux";
+import { Provider as PaperProvider, DefaultTheme } from "react-native-paper";
 
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-
-import Home from "./screens/Home";
-import Subscriptions from "./screens/Subscriptions";
-import Creator from "./screens/Creator";
-import Options from "./screens/Options";
-
-const Tab = createMaterialBottomTabNavigator();
+import store from "./app/store";
+import Start from "./screens/Start";
 
 //https://reactnavigation.org/docs/tab-based-navigation
 //https://reactnavigation.org/docs/typescript/
 //https://callstack.github.io/react-native-paper/index.html
 
-const Tabs = () => {
-  return (
-    <Tab.Navigator
-      initialRouteName="Home"
-      activeColor="orange"
-      barStyle={{ backgroundColor: "white" }}
-    >
-      <Tab.Screen
-        name="Home"
-        component={Home}
-        options={{
-          tabBarLabel: "Home",
-          tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="home" color={color} size={26} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Subscriptions"
-        component={Subscriptions}
-        options={{
-          tabBarLabel: "Subscriptions",
-          tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons
-              name="cash-multiple"
-              color={color}
-              size={26}
-            />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Creator"
-        component={Creator}
-        options={{
-          tabBarLabel: "Creator",
-          tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="pencil" color={color} size={26} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Options"
-        component={Options}
-        options={{
-          tabBarLabel: "Options",
-          tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="cog" color={color} size={26} />
-          ),
-        }}
-      />
-    </Tab.Navigator>
-  );
+const theme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: "#f57c00",
+    accent: "#455a64",
+    background: "#f2f5f3",
+  },
 };
 
 const App = () => {
   return (
-    <NavigationContainer>
-      <Tabs />
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <PaperProvider theme={theme}>
+          <Start />
+        </PaperProvider>
+      </NavigationContainer>
+    </Provider>
   );
 };
 
