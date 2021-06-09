@@ -2,7 +2,11 @@ import { NavigationContainer } from "@react-navigation/native";
 import React from "react";
 import "react-native-gesture-handler";
 import { Provider } from "react-redux";
-import { Provider as PaperProvider, DefaultTheme } from "react-native-paper";
+import {
+  Provider as PaperProvider,
+  DefaultTheme,
+  configureFonts,
+} from "react-native-paper";
 
 import store from "./app/store";
 import Start from "./screens/Start";

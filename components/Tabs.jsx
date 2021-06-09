@@ -8,6 +8,7 @@ import Home from "../screens/Home";
 import Subscriptions from "../screens/Subscriptions";
 import Creator from "../screens/Creator";
 import Options from "../screens/Options";
+import { StyleSheet, View } from "react-native";
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -16,6 +17,7 @@ const Tabs = () => {
     <Tab.Navigator
       initialRouteName='Home'
       activeColor='orange'
+      style={{ alignSelf: "stretch" }}
       barStyle={{ backgroundColor: "white" }}>
       <Tab.Screen
         name='Home'
@@ -64,4 +66,14 @@ const Tabs = () => {
     </Tab.Navigator>
   );
 };
+
 export default Tabs;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    alignSelf: "stretch",
+  },
+});

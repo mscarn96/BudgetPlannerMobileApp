@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { useAppSelector } from "../app/hooks";
 import LogIn from "../components/LogIn";
 import Register from "../components/Register";
@@ -10,16 +10,18 @@ interface Props {}
 const Start = (props: Props) => {
   const user = useAppSelector(state => state.auth.user);
 
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   const [isNewUser, setIsNewUser] = useState(false);
 
   return (
     <View style={styles.container}>
-      {user ? (
+      {isLoggedIn && user ? (
         <Tabs />
       ) : isNewUser ? (
-        <Register setIsNewUser={setIsNewUser} />
+        <Register setIsNewUser={setIsNewUser} setIsLoggedIn={setIsLoggedIn} />
       ) : (
-        <LogIn setIsNewUser={setIsNewUser} />
+        <LogIn setIsNewUser={setIsNewUser} setIsLoggedIn={setIsLoggedIn} />
       )}
     </View>
   );
@@ -32,5 +34,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    alignSelf: "stretch",
   },
 });

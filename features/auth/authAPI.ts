@@ -9,8 +9,10 @@ export interface LoginData {
   password: string;
 }
 
+const url = process.env.API_URL;
+
 export const register = async (data: RegisterData) => {
-  return fetch(`${process.env.API_URL}/auth/register`, {
+  return fetch(`http://localhost:5000/auth/register`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -20,7 +22,7 @@ export const register = async (data: RegisterData) => {
 };
 
 export const login = async (data: LoginData) => {
-  return fetch(`${process.env.API_URL}/auth/login`, {
+  return fetch(`${url}/auth/login`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
