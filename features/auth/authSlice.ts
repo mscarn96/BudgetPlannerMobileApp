@@ -1,19 +1,14 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { AxiosResponse } from "axios";
 import { RootState } from "../../app/store";
+import { User } from "../../types";
+import { storeToken } from "../../utils/asyncStorage";
+import handleAsyncError, {
+  ResponseWithError,
+} from "../../utils/handleAsyncError";
 import * as authAPI from "./authAPI";
 
-export interface User {
-  _id: string;
-  name: string;
-  email: string;
-}
-
-export type AuthData = Response & User;
-
-interface ResponseWithError {
-  status: number;
-  message: string;
-}
+export type AuthData = AxiosResponse & User;
 
 type SliceState = {
   loading: boolean;
@@ -30,13 +25,13 @@ export const register = createAsyncThunk<
   authAPI.RegisterData,
   { rejectValue: ResponseWithError }
 >(`register`, async (data: authAPI.RegisterData, thunkAPI) => {
-  const response = await authAPI.register(data);
-  if (response.status !== 200) {
-    return thunkAPI.rejectWithValue(
-      (await response.json()) as ResponseWithError
-    );
+  try {
+    const response = await authAPI.register(data);
+    storeToken(response.headers.authorization);
+    return response.data;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(handleAsyncError(error));
   }
-  return (await response.json()) as AuthData;
 });
 
 export const login = createAsyncThunk<
@@ -44,13 +39,13 @@ export const login = createAsyncThunk<
   authAPI.LoginData,
   { rejectValue: ResponseWithError }
 >(`login`, async (data: authAPI.LoginData, thunkAPI) => {
-  const response = await authAPI.login(data);
-  if (response.status !== 200) {
-    return thunkAPI.rejectWithValue(
-      (await response.json()) as ResponseWithError
-    );
+  try {
+    const response = await authAPI.login(data);
+    storeToken(response.headers.authorization);
+    return response.data;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(handleAsyncError(error));
   }
-  return (await response.json()) as AuthData;
 });
 
 const authSlice = createSlice({

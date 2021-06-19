@@ -1,3 +1,5 @@
+import axios from "axios";
+
 export interface RegisterData {
   name: string;
   email: string;
@@ -12,21 +14,10 @@ export interface LoginData {
 const url = process.env.API_URL;
 
 export const register = async (data: RegisterData) => {
-  return fetch(`http://localhost:5000/auth/register`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  });
+  return axios.post(`${url}/auth/register`, data);
 };
 
 export const login = async (data: LoginData) => {
-  return fetch(`${url}/auth/login`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  });
+  const response = await axios.post(`${url}/auth/login`, data);
+  return response;
 };
